@@ -60,6 +60,9 @@
         <action
             android:id="@+id/action_companiesListFragment_to_vacanciesListFragment"
             app:destination="@id/vacanciesListFragment" />
+        <action
+            android:id="@+id/action_companiesListFragment_to_newCompanyFragment"
+            app:destination="@id/newCompanyFragment" />
     </fragment>
     <fragment
         android:id="@+id/headHuntersListFragment"
@@ -69,4 +72,8 @@
             android:id="@+id/action_headHuntersListFragment_to_vacanciesListFragment"
             app:destination="@id/vacanciesListFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/newCompanyFragment"
+        android:name="com.memksim.gladchenko.NewCompanyFragment"
+        android:label="NewCompanyFragment" />
 </navigation>

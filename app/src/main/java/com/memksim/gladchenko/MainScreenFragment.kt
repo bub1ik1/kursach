@@ -16,11 +16,11 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
             findNavController().navigate(R.id.action_mainScreenFragment_to_jobSeekersListFragment)
         }
         view.findViewById<Button>(R.id.button2).setOnClickListener {
-            findNavController().navigate(R.id.action_mainScreenFragment_to_companiesListFragment)
+            findNavController().navigate(R.id.action_mainScreenFragment_to_headHuntersListFragment)
 
         }
         view.findViewById<Button>(R.id.button3).setOnClickListener {
-            findNavController().navigate(R.id.action_mainScreenFragment_to_headHuntersListFragment)
+            findNavController().navigate(R.id.action_mainScreenFragment_to_companiesListFragment)
         }
     }
 

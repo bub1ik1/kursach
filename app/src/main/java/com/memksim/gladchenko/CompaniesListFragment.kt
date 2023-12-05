@@ -13,9 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.memksim.cursach.data.Company
 import com.memksim.gladchenko.databinding.FragmentCompaniesListBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class CompaniesListFragment : Fragment(R.layout.fragment_companies_list) {
 
     @Inject
@@ -40,7 +42,7 @@ class CompaniesListFragment : Fragment(R.layout.fragment_companies_list) {
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
             it.fab.setOnClickListener {
-
+                findNavController().navigate(R.id.action_companiesListFragment_to_newCompanyFragment)
             }
 
             it.materialToolbar2.setNavigationOnClickListener {

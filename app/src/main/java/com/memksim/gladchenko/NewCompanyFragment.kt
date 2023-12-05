@@ -8,9 +8,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.memksim.cursach.data.Company
 import com.memksim.gladchenko.databinding.FragmentNewCompanyBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class NewCompanyFragment : Fragment(R.layout.fragment_new_company) {
 
     @Inject
@@ -23,6 +25,9 @@ class NewCompanyFragment : Fragment(R.layout.fragment_new_company) {
         binding = FragmentNewCompanyBinding.bind(view)
 
         binding?.let {
+            it.materialToolbar3.setNavigationOnClickListener {
+                findNavController().navigateUp()
+            }
             it.fab.setOnClickListener { view ->
                 if (it.nameTiet.text?.isNotEmpty() == true) {
                     lifecycleScope.launch {
