@@ -11,6 +11,9 @@
         <action
             android:id="@+id/action_mainScreenFragment_to_jobSeekersListFragment"
             app:destination="@id/jobSeekersListFragment" />
+        <action
+            android:id="@+id/action_mainScreenFragment_to_vacancyInfoFragment"
+            app:destination="@id/vacancyInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/jobSeekersListFragment"
@@ -35,4 +38,8 @@
         android:id="@+id/newJobSeekerFragment"
         android:name="com.memksim.gladchenko.NewJobSeekerFragment"
         android:label="NewJobSeekerFragment" />
+    <fragment
+        android:id="@+id/vacancyInfoFragment"
+        android:name="com.memksim.gladchenko.VacancyInfoFragment"
+        android:label="VacancyInfoFragment" />
 </navigation>
