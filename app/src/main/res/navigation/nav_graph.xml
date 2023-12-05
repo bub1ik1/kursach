@@ -12,8 +12,11 @@
             android:id="@+id/action_mainScreenFragment_to_jobSeekersListFragment"
             app:destination="@id/jobSeekersListFragment" />
         <action
-            android:id="@+id/action_mainScreenFragment_to_vacancyInfoFragment"
-            app:destination="@id/vacancyInfoFragment" />
+            android:id="@+id/action_mainScreenFragment_to_companiesListFragment"
+            app:destination="@id/companiesListFragment" />
+        <action
+            android:id="@+id/action_mainScreenFragment_to_headHuntersListFragment"
+            app:destination="@id/headHuntersListFragment" />
     </fragment>
     <fragment
         android:id="@+id/jobSeekersListFragment"
@@ -42,4 +45,28 @@
         android:id="@+id/vacancyInfoFragment"
         android:name="com.memksim.gladchenko.VacancyInfoFragment"
         android:label="VacancyInfoFragment" />
+    <fragment
+        android:id="@+id/vacanciesListFragment"
+        android:name="com.memksim.gladchenko.VacanciesListFragment"
+        android:label="VacanciesListFragment" >
+        <action
+            android:id="@+id/action_vacanciesListFragment_to_vacancyInfoFragment"
+            app:destination="@id/vacancyInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/companiesListFragment"
+        android:name="com.memksim.gladchenko.CompaniesListFragment"
+        android:label="CompaniesListFragment" >
+        <action
+            android:id="@+id/action_companiesListFragment_to_vacanciesListFragment"
+            app:destination="@id/vacanciesListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/headHuntersListFragment"
+        android:name="com.memksim.gladchenko.HeadHuntersListFragment"
+        android:label="HeadHuntersListFragment" >
+        <action
+            android:id="@+id/action_headHuntersListFragment_to_vacanciesListFragment"
+            app:destination="@id/vacanciesListFragment" />
+    </fragment>
 </navigation>

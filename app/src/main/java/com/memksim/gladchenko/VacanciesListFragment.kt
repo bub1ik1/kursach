@@ -2,7 +2,6 @@ package com.memksim.gladchenko
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,41 +11,38 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.Adapter
-import com.memksim.gladchenko.data.JobSeeker
-import com.memksim.gladchenko.databinding.FragmentJobSeekersListBinding
-import com.memksim.gladchenko.databinding.ItemBinding
+import com.memksim.gladchenko.data.Vacancy
+import com.memksim.gladchenko.databinding.FragmentVacanciesListBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class JobSeekersListFragment : Fragment(R.layout.fragment_job_seekers_list) {
+class VacanciesListFragment : Fragment(R.layout.fragment_vacancies_list) {
 
     @Inject
     lateinit var manager: DatabaseManager
 
-    private var binding: FragmentJobSeekersListBinding? = null
-
-    private val adapter = JobSeekersAdapter { id ->
+    private val adapter = VacanciesAdapter {
         val bundle = Bundle()
-        bundle.putInt("jobSeekerId", id)
+        bundle.putInt("VACANCY_ID", it)
         findNavController().navigate(
-            R.id.action_jobSeekersListFragment_to_jobSeekerInfoFragment,
+            R.id.action_vacanciesListFragment_to_vacancyInfoFragment,
             bundle
         )
     }
+    private var binding: FragmentVacanciesListBinding? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentJobSeekersListBinding.bind(view)
+        binding = FragmentVacanciesListBinding.bind(view)
         binding?.let {
-            it.jobSeekersRecyclerview.adapter = adapter
-            it.jobSeekersRecyclerview.layoutManager =
+            it.vacanciesRecyclerview.adapter = adapter
+            it.vacanciesRecyclerview.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
             it.fab.setOnClickListener {
-                findNavController().navigate(R.id.action_jobSeekersListFragment_to_newJobSeekerFragment)
+
             }
 
             it.materialToolbar2.setNavigationOnClickListener {
@@ -59,7 +55,7 @@ class JobSeekersListFragment : Fragment(R.layout.fragment_job_seekers_list) {
     override fun onResume() {
         super.onResume()
         lifecycleScope.launch {
-            adapter.jobSeekers = manager.getJobSeekers()
+            adapter.items = manager.getVacanciesByCompany(arguments?.getInt("COMPANY_ID") ?: 0)
         }
         adapter.notifyDataSetChanged()
     }
@@ -71,33 +67,27 @@ class JobSeekersListFragment : Fragment(R.layout.fragment_job_seekers_list) {
 
 }
 
-class JobSeekersAdapter(
+class VacanciesAdapter(
     private val doOnItemClicked: (Int) -> Unit
-) : Adapter<JobSeekersAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<VacanciesAdapter.ViewHolder>() {
 
-    var jobSeekers: List<JobSeeker> = listOf()
-        set(value) {
-            field = value
-            Log.d("TEST", "set: $value")
-            notifyDataSetChanged()
-        }
+    var items: List<Vacancy> = listOf()
 
-    inner class ViewHolder(val binding: ItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun onBind(index: Int) {
-            Log.d("TEST", "onBind: ${jobSeekers[index].fullName}")
-            binding.text.text = jobSeekers[index].fullName
+            itemView.findViewById<TextView>(R.id.text).text = items[index].title
             itemView.setOnClickListener {
-                doOnItemClicked(jobSeekers[index].id)
+                doOnItemClicked(index)
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemBinding.inflate(LayoutInflater.from(parent.context))
-        return ViewHolder(binding)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item, parent, false)
+        return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int = jobSeekers.size
+    override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.onBind(position)
 

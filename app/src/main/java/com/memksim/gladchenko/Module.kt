@@ -22,7 +22,4 @@ object Module {
         Database::class.java, "head_hunting_database"
     ).build().getDao()
 
-    /*@Provides
-    fun provideManager(dao: HhDao): DatabaseManager = DatabaseManager(dao)*/
-
 }
