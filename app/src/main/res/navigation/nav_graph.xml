@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainScreenFragment">
+
+    <fragment
+        android:id="@+id/mainScreenFragment"
+        android:name="com.memksim.gladchenko.MainScreenFragment"
+        android:label="MainScreenFragment" >
+        <action
+            android:id="@+id/action_mainScreenFragment_to_jobSeekersListFragment"
+            app:destination="@id/jobSeekersListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/jobSeekersListFragment"
+        android:name="com.memksim.gladchenko.JobSeekersListFragment"
+        android:label="JobSeekersListFragment" >
+        <action
+            android:id="@+id/action_jobSeekersListFragment_to_jobSeekerInfoFragment"
+            app:destination="@id/jobSeekerInfoFragment" />
+        <action
+            android:id="@+id/action_jobSeekersListFragment_to_newJobSeekerFragment"
+            app:destination="@id/newJobSeekerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/jobSeekerInfoFragment"
+        android:name="com.memksim.gladchenko.JobSeekerInfoFragment"
+        android:label="JobSeekerInfoFragment" >
+        <action
+            android:id="@+id/action_jobSeekerInfoFragment_to_newJobSeekerFragment"
+            app:destination="@id/newJobSeekerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newJobSeekerFragment"
+        android:name="com.memksim.gladchenko.NewJobSeekerFragment"
+        android:label="NewJobSeekerFragment" />
+</navigation>
