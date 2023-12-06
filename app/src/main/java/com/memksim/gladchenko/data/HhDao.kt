@@ -70,6 +70,9 @@ interface HhDao {
     @Query("SELECT * FROM head_hunter WHERE id = :headHunterId")
     suspend fun fetchHeadHunterById(headHunterId: Int): HeadHunter
 
+    @Query("SELECT * FROM head_hunter WHERE companyId = :companyId")
+    suspend fun fetchHeadHuntersByCompanyId(companyId: Int): List<HeadHunter>
+
     @Query("SELECT * FROM job_seeker")
     suspend fun fetchJobSeekers(): List<JobSeeker>
 

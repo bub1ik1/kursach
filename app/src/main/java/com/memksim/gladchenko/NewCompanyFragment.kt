@@ -25,10 +25,10 @@ class NewCompanyFragment : Fragment(R.layout.fragment_new_company) {
         binding = FragmentNewCompanyBinding.bind(view)
 
         binding?.let {
-            it.materialToolbar3.setNavigationOnClickListener {
+            it.materialToolbar.setNavigationOnClickListener {
                 findNavController().navigateUp()
             }
-            it.fab.setOnClickListener { view ->
+            it.add.setOnClickListener { view ->
                 if (it.nameTiet.text?.isNotEmpty() == true) {
                     lifecycleScope.launch {
                         manager.saveNewCompany(

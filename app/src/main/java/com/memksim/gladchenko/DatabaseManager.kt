@@ -3,6 +3,7 @@ package com.memksim.gladchenko
 import com.memksim.cursach.data.Company
 import com.memksim.gladchenko.data.JobSeeker
 import com.memksim.gladchenko.data.HhDao
+import com.memksim.gladchenko.data.Vacancy
 import javax.inject.Inject
 
 class DatabaseManager @Inject constructor(
@@ -25,5 +26,12 @@ class DatabaseManager @Inject constructor(
     suspend fun getHeadHunters() = dao.fetchHeadHunters()
 
     suspend fun saveNewCompany(company: Company) = dao.insertCompany(company)
+
+    suspend fun deleteCompany(company: Company) = dao.deleteCompany(company)
+
+    suspend fun getHeadHuntersByCompany(companyId: Int) =
+        dao.fetchHeadHuntersByCompanyId(companyId)
+
+    suspend fun saveNewVacancy(vacancy: Vacancy) = dao.insertVacancy(vacancy)
 
 }

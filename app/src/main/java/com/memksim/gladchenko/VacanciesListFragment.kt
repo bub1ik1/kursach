@@ -26,6 +26,7 @@ class VacanciesListFragment : Fragment(R.layout.fragment_vacancies_list) {
     private val adapter = VacanciesAdapter {
         val bundle = Bundle()
         bundle.putInt("VACANCY_ID", it)
+        bundle.putInt("COMPANY_ID", arguments?.getInt("COMPANY_ID") ?: 0)
         findNavController().navigate(
             R.id.action_vacanciesListFragment_to_vacancyInfoFragment,
             bundle
@@ -42,7 +43,7 @@ class VacanciesListFragment : Fragment(R.layout.fragment_vacancies_list) {
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
             it.fab.setOnClickListener {
-
+                findNavController().navigate(R.id.action_vacanciesListFragment_to_newVacancyFragment)
             }
 
             it.materialToolbar2.setNavigationOnClickListener {

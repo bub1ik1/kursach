@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/mainScreenFragment">
 
     <fragment
         android:id="@+id/mainScreenFragment"
         android:name="com.memksim.gladchenko.MainScreenFragment"
-        android:label="MainScreenFragment" >
+        android:label="MainScreenFragment"
+        tools:layout="@layout/fragment_main_screen">
         <action
             android:id="@+id/action_mainScreenFragment_to_jobSeekersListFragment"
             app:destination="@id/jobSeekersListFragment" />
@@ -21,7 +23,8 @@
     <fragment
         android:id="@+id/jobSeekersListFragment"
         android:name="com.memksim.gladchenko.JobSeekersListFragment"
-        android:label="JobSeekersListFragment" >
+        android:label="JobSeekersListFragment"
+        tools:layout="@layout/fragment_job_seekers_list">
         <action
             android:id="@+id/action_jobSeekersListFragment_to_jobSeekerInfoFragment"
             app:destination="@id/jobSeekerInfoFragment" />
@@ -32,7 +35,8 @@
     <fragment
         android:id="@+id/jobSeekerInfoFragment"
         android:name="com.memksim.gladchenko.JobSeekerInfoFragment"
-        android:label="JobSeekerInfoFragment" >
+        android:label="JobSeekerInfoFragment"
+        tools:layout="@layout/fragment_job_seeker_info">
         <action
             android:id="@+id/action_jobSeekerInfoFragment_to_newJobSeekerFragment"
             app:destination="@id/newJobSeekerFragment" />
@@ -40,23 +44,30 @@
     <fragment
         android:id="@+id/newJobSeekerFragment"
         android:name="com.memksim.gladchenko.NewJobSeekerFragment"
-        android:label="NewJobSeekerFragment" />
+        android:label="NewJobSeekerFragment"
+        tools:layout="@layout/fragment_new_job_seeker"/>
     <fragment
         android:id="@+id/vacancyInfoFragment"
         android:name="com.memksim.gladchenko.VacancyInfoFragment"
-        android:label="VacancyInfoFragment" />
+        android:label="VacancyInfoFragment"
+        tools:layout="@layout/fragment_vacancy_info"/>
     <fragment
         android:id="@+id/vacanciesListFragment"
         android:name="com.memksim.gladchenko.VacanciesListFragment"
-        android:label="VacanciesListFragment" >
+        android:label="VacanciesListFragment"
+        tools:layout="@layout/fragment_vacancies_list">
         <action
             android:id="@+id/action_vacanciesListFragment_to_vacancyInfoFragment"
             app:destination="@id/vacancyInfoFragment" />
+        <action
+            android:id="@+id/action_vacanciesListFragment_to_newVacancyFragment"
+            app:destination="@id/newVacancyFragment" />
     </fragment>
     <fragment
         android:id="@+id/companiesListFragment"
         android:name="com.memksim.gladchenko.CompaniesListFragment"
-        android:label="CompaniesListFragment" >
+        android:label="CompaniesListFragment"
+        tools:layout="@layout/fragment_companies_list">
         <action
             android:id="@+id/action_companiesListFragment_to_vacanciesListFragment"
             app:destination="@id/vacanciesListFragment" />
@@ -67,7 +78,8 @@
     <fragment
         android:id="@+id/headHuntersListFragment"
         android:name="com.memksim.gladchenko.HeadHuntersListFragment"
-        android:label="HeadHuntersListFragment" >
+        android:label="HeadHuntersListFragment"
+        tools:layout="@layout/fragment_head_hunters_list">
         <action
             android:id="@+id/action_headHuntersListFragment_to_vacanciesListFragment"
             app:destination="@id/vacanciesListFragment" />
@@ -75,5 +87,11 @@
     <fragment
         android:id="@+id/newCompanyFragment"
         android:name="com.memksim.gladchenko.NewCompanyFragment"
-        android:label="NewCompanyFragment" />
+        android:label="NewCompanyFragment"
+        tools:layout="@layout/fragment_new_company"/>
+    <fragment
+        android:id="@+id/newVacancyFragment"
+        android:name="com.memksim.gladchenko.NewVacancyFragment"
+        android:label="NewVacancyFragment"
+        tools:layout="@layout/fragment_new_vacancy"/>
 </navigation>

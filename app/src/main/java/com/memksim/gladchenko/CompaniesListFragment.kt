@@ -15,6 +15,7 @@ import com.memksim.cursach.data.Company
 import com.memksim.gladchenko.databinding.FragmentCompaniesListBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -23,14 +24,22 @@ class CompaniesListFragment : Fragment(R.layout.fragment_companies_list) {
     @Inject
     lateinit var manager: DatabaseManager
 
-    private val adapter = CompaniesAdapter {
-        val bundle = Bundle()
-        bundle.putInt("COMPANY_ID", it)
-        findNavController().navigate(
-            R.id.action_companiesListFragment_to_vacanciesListFragment,
-            bundle
-        )
-    }
+    private val adapter = CompaniesAdapter(
+        doOnItemClicked = {
+            val bundle = Bundle()
+            bundle.putInt("COMPANY_ID", it)
+            findNavController().navigate(
+                R.id.action_companiesListFragment_to_vacanciesListFragment,
+                bundle
+            )
+        },
+        doOnItemLongClicked = { company ->
+            lifecycleScope.launch {
+                manager.deleteCompany(company)
+            }
+
+        }
+    )
     private var binding: FragmentCompaniesListBinding? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,7 +63,7 @@ class CompaniesListFragment : Fragment(R.layout.fragment_companies_list) {
     @SuppressLint("NotifyDataSetChanged")
     override fun onResume() {
         super.onResume()
-        lifecycleScope.launch {
+        runBlocking {
             adapter.items = manager.getCompanies()
         }
         adapter.notifyDataSetChanged()
@@ -68,7 +77,8 @@ class CompaniesListFragment : Fragment(R.layout.fragment_companies_list) {
 }
 
 class CompaniesAdapter(
-    private val doOnItemClicked: (Int) -> Unit
+    private val doOnItemClicked: (Int) -> Unit,
+    private val doOnItemLongClicked: (Company) -> Unit
 ) : RecyclerView.Adapter<CompaniesAdapter.ViewHolder>() {
 
     var items: List<Company> = listOf()
@@ -77,7 +87,16 @@ class CompaniesAdapter(
         fun onBind(index: Int) {
             itemView.findViewById<TextView>(R.id.text).text = items[index].name
             itemView.setOnClickListener {
-                doOnItemClicked(index)
+                doOnItemClicked(items[index].id)
+            }
+            itemView.setOnLongClickListener {
+                val company = items[index]
+                val newList = items.toMutableList()
+                newList.remove(company)
+                items = newList
+                notifyDataSetChanged()
+                doOnItemLongClicked(company)
+                true
             }
         }
     }
