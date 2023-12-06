@@ -15,6 +15,7 @@ import com.memksim.gladchenko.data.Vacancy
 import com.memksim.gladchenko.databinding.FragmentVacanciesListBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -26,7 +27,6 @@ class VacanciesListFragment : Fragment(R.layout.fragment_vacancies_list) {
     private val adapter = VacanciesAdapter {
         val bundle = Bundle()
         bundle.putInt("VACANCY_ID", it)
-        bundle.putInt("COMPANY_ID", arguments?.getInt("COMPANY_ID") ?: 0)
         findNavController().navigate(
             R.id.action_vacanciesListFragment_to_vacancyInfoFragment,
             bundle
@@ -43,7 +43,23 @@ class VacanciesListFragment : Fragment(R.layout.fragment_vacancies_list) {
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
             it.fab.setOnClickListener {
-                findNavController().navigate(R.id.action_vacanciesListFragment_to_newVacancyFragment)
+                val bundle = Bundle()
+                if (arguments?.getString("FROM_WHAT").equals("HEAD_HUNTERS")) {
+                    runBlocking {
+                        bundle.putInt(
+                            "COMPANY_ID",
+                            manager.getHeadHunterById(
+                                arguments?.getInt("HEAD_HUNTER_ID") ?: 0
+                            ).companyId
+                        )
+                    }
+                } else {
+                    bundle.putInt("COMPANY_ID", arguments?.getInt("COMPANY_ID") ?: 0)
+                }
+                findNavController().navigate(
+                    R.id.action_vacanciesListFragment_to_newVacancyFragment,
+                    bundle
+                )
             }
 
             it.materialToolbar2.setNavigationOnClickListener {
@@ -56,7 +72,12 @@ class VacanciesListFragment : Fragment(R.layout.fragment_vacancies_list) {
     override fun onResume() {
         super.onResume()
         lifecycleScope.launch {
-            adapter.items = manager.getVacanciesByCompany(arguments?.getInt("COMPANY_ID") ?: 0)
+            if (arguments?.getString("FROM_WHAT").equals("HEAD_HUNTERS")) {
+                adapter.items =
+                    manager.getVacanciesByCompany(arguments?.getInt("HEAD_HUNTER_ID") ?: 0)
+            } else if (arguments?.getString("FROM_WHAT").equals("COMPANIES")) {
+                adapter.items = manager.getVacanciesByCompany(arguments?.getInt("COMPANY_ID") ?: 0)
+            }
         }
         adapter.notifyDataSetChanged()
     }
@@ -78,7 +99,7 @@ class VacanciesAdapter(
         fun onBind(index: Int) {
             itemView.findViewById<TextView>(R.id.text).text = items[index].title
             itemView.setOnClickListener {
-                doOnItemClicked(index)
+                doOnItemClicked(items[index].id)
             }
         }
     }

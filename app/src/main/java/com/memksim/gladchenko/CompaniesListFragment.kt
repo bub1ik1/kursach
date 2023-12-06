@@ -28,6 +28,7 @@ class CompaniesListFragment : Fragment(R.layout.fragment_companies_list) {
         doOnItemClicked = {
             val bundle = Bundle()
             bundle.putInt("COMPANY_ID", it)
+            bundle.putString("FROM_WHAT", "COMPANIES")
             findNavController().navigate(
                 R.id.action_companiesListFragment_to_vacanciesListFragment,
                 bundle

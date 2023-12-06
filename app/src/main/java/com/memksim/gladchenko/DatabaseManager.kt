@@ -1,6 +1,7 @@
 package com.memksim.gladchenko
 
 import com.memksim.cursach.data.Company
+import com.memksim.gladchenko.data.HeadHunter
 import com.memksim.gladchenko.data.JobSeeker
 import com.memksim.gladchenko.data.HhDao
 import com.memksim.gladchenko.data.Vacancy
@@ -33,5 +34,15 @@ class DatabaseManager @Inject constructor(
         dao.fetchHeadHuntersByCompanyId(companyId)
 
     suspend fun saveNewVacancy(vacancy: Vacancy) = dao.insertVacancy(vacancy)
+
+    suspend fun saveNewHeadHunter(headHunter: HeadHunter) = dao.insertHeadHunter(headHunter)
+
+    suspend fun getHeadHunterById(headHunterId: Int) = dao.fetchHeadHunterById(headHunterId)
+
+    suspend fun getVacancyById(vacancyId: Int) = dao.fetchVacancyById(vacancyId)
+
+    suspend fun deleteVacancy(vacancy: Vacancy) = dao.deleteVacancy(vacancy)
+
+    suspend fun getCompanyById(companyId: Int) = dao.fetchCompanyById(companyId)
 
 }
