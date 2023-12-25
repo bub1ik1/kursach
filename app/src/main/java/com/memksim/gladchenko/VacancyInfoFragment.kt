@@ -5,7 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.memksim.cursach.data.Company
+import com.memksim.gladchenko.data.Company
 import com.memksim.gladchenko.data.HeadHunter
 import com.memksim.gladchenko.data.Vacancy
 import com.memksim.gladchenko.databinding.FragmentVacancyInfoBinding
@@ -30,7 +30,7 @@ class VacancyInfoFragment : Fragment(R.layout.fragment_vacancy_info) {
         var headHunter: HeadHunter?
         runBlocking {
             vacancy = manager.getVacancyById(arguments?.getInt("VACANCY_ID") ?: 0)
-            company = manager.getCompanyById(vacancy?.id ?: 0)
+            company = manager.getCompanyById(vacancy?.companyId ?: 0)
             headHunter = manager.getHeadHunterById(vacancy?.hunterId ?: 0)
         }
         binding?.let {
@@ -46,6 +46,8 @@ class VacancyInfoFragment : Fragment(R.layout.fragment_vacancy_info) {
             it.textView.text = vacancy?.title
             it.textView2.text = company?.name
             it.textView4.text = vacancy?.salary.toString()
+            it.skills.text = vacancy?.skills
+
             it.contactsTextView.text = "Звоните: ${headHunter?.contactPhone}, ${headHunter?.name}"
         }
     }

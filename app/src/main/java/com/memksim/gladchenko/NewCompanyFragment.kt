@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.memksim.cursach.data.Company
+import com.memksim.gladchenko.data.Company
 import com.memksim.gladchenko.databinding.FragmentNewCompanyBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

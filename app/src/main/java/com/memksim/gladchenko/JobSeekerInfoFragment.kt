@@ -50,6 +50,15 @@ class JobSeekerInfoFragment : Fragment(R.layout.fragment_job_seeker_info) {
                 }
                 findNavController().navigateUp()
             }
+            it.showVacanciesButton.setOnClickListener {
+                val bundle = Bundle()
+                bundle.putString("FROM_WHAT", "JOB_SEEKER_INFO")
+                bundle.putString("SKILLS", jobSeeker?.skills?.lowercase())
+                findNavController().navigate(
+                    R.id.action_jobSeekerInfoFragment_to_vacanciesListFragment,
+                    bundle
+                )
+            }
         }
     }
 

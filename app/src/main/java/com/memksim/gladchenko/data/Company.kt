@@ -1,4 +1,4 @@
-package com.memksim.cursach.data
+package com.memksim.gladchenko.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

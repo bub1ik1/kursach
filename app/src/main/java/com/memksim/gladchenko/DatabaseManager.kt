@@ -1,6 +1,7 @@
 package com.memksim.gladchenko
 
-import com.memksim.cursach.data.Company
+import android.util.Log
+import com.memksim.gladchenko.data.Company
 import com.memksim.gladchenko.data.HeadHunter
 import com.memksim.gladchenko.data.JobSeeker
 import com.memksim.gladchenko.data.HhDao
@@ -44,5 +45,25 @@ class DatabaseManager @Inject constructor(
     suspend fun deleteVacancy(vacancy: Vacancy) = dao.deleteVacancy(vacancy)
 
     suspend fun getCompanyById(companyId: Int) = dao.fetchCompanyById(companyId)
+
+    suspend fun getVacanciesBySkills(jobSeekerSkills: List<String>): List<Vacancy> {
+        val matchedVacancies = mutableListOf<Vacancy>()
+        val vacancies = dao.fetchVacancies()
+        Log.d("CHMO", "job seeker skills: $jobSeekerSkills")
+        vacancies.forEach { vacancy ->
+            val requiredSkills = vacancy.skills.lowercase().split(' ')
+            Log.d("CHMO", "requiredSkills: $requiredSkills")
+            var matchesCounter = 0
+            requiredSkills.forEach { skill ->
+                Log.d("CHMO", "skill: $skill, contains: ${jobSeekerSkills.contains(skill)}")
+
+                if (jobSeekerSkills.contains(skill)) matchesCounter++
+            }
+            if (matchesCounter >= 1) matchedVacancies.add(vacancy)
+            Log.d("CHMO", "--step: $matchedVacancies")
+
+        }
+        return matchedVacancies
+    }
 
 }

@@ -2,10 +2,12 @@ package com.memksim.gladchenko
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -42,6 +44,13 @@ class VacanciesListFragment : Fragment(R.layout.fragment_vacancies_list) {
             it.vacanciesRecyclerview.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
+            Log.d("CHMO", "onViewCreated: from what = ${arguments?.getString("FROM_WHAT")}")
+
+            if (arguments?.getString("FROM_WHAT") == "JOB_SEEKER_INFO") {
+                it.fab.isVisible = false
+                it.materialToolbar2.title = "Подходящие вакансии"
+            }
+
             it.fab.setOnClickListener {
                 val bundle = Bundle()
                 if (arguments?.getString("FROM_WHAT").equals("HEAD_HUNTERS")) {
@@ -72,11 +81,21 @@ class VacanciesListFragment : Fragment(R.layout.fragment_vacancies_list) {
     override fun onResume() {
         super.onResume()
         lifecycleScope.launch {
-            if (arguments?.getString("FROM_WHAT").equals("HEAD_HUNTERS")) {
-                adapter.items =
-                    manager.getVacanciesByCompany(arguments?.getInt("HEAD_HUNTER_ID") ?: 0)
-            } else if (arguments?.getString("FROM_WHAT").equals("COMPANIES")) {
-                adapter.items = manager.getVacanciesByCompany(arguments?.getInt("COMPANY_ID") ?: 0)
+            when (arguments?.getString("FROM_WHAT")) {
+                "HEAD_HUNTERS" -> {
+                    adapter.items =
+                        manager.getVacanciesByCompany(arguments?.getInt("HEAD_HUNTER_ID") ?: 0)
+                }
+
+                "COMPANIES" -> {
+                    adapter.items =
+                        manager.getVacanciesByCompany(arguments?.getInt("COMPANY_ID") ?: 0)
+                }
+
+                "JOB_SEEKER_INFO" -> {
+                    val skills = arguments?.getString("SKILLS")?.split(' ').orEmpty()
+                    adapter.items = manager.getVacanciesBySkills(skills)
+                }
             }
         }
         adapter.notifyDataSetChanged()
@@ -94,6 +113,10 @@ class VacanciesAdapter(
 ) : RecyclerView.Adapter<VacanciesAdapter.ViewHolder>() {
 
     var items: List<Vacancy> = listOf()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun onBind(index: Int) {

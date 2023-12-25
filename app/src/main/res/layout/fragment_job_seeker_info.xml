@@ -83,5 +83,15 @@
         android:src="@drawable/baseline_delete_24"
         app:tint="@color/white"/>
 
+    <Button
+        android:id="@+id/showVacanciesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="Смотреть подходящие вакансии"
+        app:layout_constraintBottom_toBottomOf="@id/add"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/add" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

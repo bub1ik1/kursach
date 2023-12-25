@@ -40,6 +40,9 @@
         <action
             android:id="@+id/action_jobSeekerInfoFragment_to_newJobSeekerFragment"
             app:destination="@id/newJobSeekerFragment" />
+        <action
+            android:id="@+id/action_jobSeekerInfoFragment_to_vacanciesListFragment"
+            app:destination="@id/vacanciesListFragment" />
     </fragment>
     <fragment
         android:id="@+id/newJobSeekerFragment"
