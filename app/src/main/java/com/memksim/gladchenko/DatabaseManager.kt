@@ -47,20 +47,24 @@ class DatabaseManager @Inject constructor(
     suspend fun getCompanyById(companyId: Int) = dao.fetchCompanyById(companyId)
 
     suspend fun getVacanciesBySkills(jobSeekerSkills: List<String>): List<Vacancy> {
+        //Подходящие вакансии
         val matchedVacancies = mutableListOf<Vacancy>()
+        //все вакансии
         val vacancies = dao.fetchVacancies()
-        Log.d("CHMO", "job seeker skills: $jobSeekerSkills")
+        //проход по списку всех вакансий
         vacancies.forEach { vacancy ->
+            //навыки, необходимые для вакансии
+            //Преобразуем строку с навыками в массив навыков. Делим по пробелу
             val requiredSkills = vacancy.skills.lowercase().split(' ')
-            Log.d("CHMO", "requiredSkills: $requiredSkills")
+            //совпадения по навыкам счетчик
             var matchesCounter = 0
+            //проход по необходимым навыкам
             requiredSkills.forEach { skill ->
-                Log.d("CHMO", "skill: $skill, contains: ${jobSeekerSkills.contains(skill)}")
-
+                //Если в навыках пользователя есть необходимый навык то прибавляем 1 к счетчику
                 if (jobSeekerSkills.contains(skill)) matchesCounter++
             }
+            // Если счетчик больше 1 то добавляем вакансию в подходящие
             if (matchesCounter >= 1) matchedVacancies.add(vacancy)
-            Log.d("CHMO", "--step: $matchedVacancies")
 
         }
         return matchedVacancies
